@@ -1,6 +1,7 @@
 import React from "react";
 import NewTicketForm from "./NewTicketForm.js";
 import TicketList from "./TicketList.js";
+import QuestionScreen from "./QuestionScreen.js";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -20,7 +21,7 @@ class TicketControl extends React.Component {
     if (this.state.formVisibleOnPage) {
       return {
         buttonText: "Return To Ticket List",
-        component: <NewTicketForm />,
+        component: <QuestionScreen />,
       };
     } else {
       return {
