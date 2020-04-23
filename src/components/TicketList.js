@@ -1,6 +1,8 @@
 import React from "react";
 import Ticket from "./Ticket";
+import PropTypes from "prop-types";
 
+/* Seed Data */
 const masterTicketList = [
   {
     names: "Thato and Haley",
@@ -19,11 +21,11 @@ const masterTicketList = [
   },
 ];
 
-function TicketList() {
+function TicketList(props) {
   return (
     <React.Fragment>
       <hr />
-      {masterTicketList.map((ticket, index) => (
+      {props.ticketList.map((ticket, index) => (
         <Ticket
           names={ticket.names}
           location={ticket.location}
@@ -34,5 +36,9 @@ function TicketList() {
     </React.Fragment>
   );
 }
+
+TicketList.propTypes = {
+  ticketList: PropTypes.array,
+};
 
 export default TicketList;
