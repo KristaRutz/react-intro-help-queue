@@ -1,6 +1,7 @@
 import React from "react";
 import NewTicketForm from "./NewTicketForm";
 import Question from "./Question.js";
+import PropTypes from "prop-types";
 
 class QuestionScreen extends React.Component {
   constructor(props) {
@@ -8,6 +9,9 @@ class QuestionScreen extends React.Component {
     this.state = {
       questionVisible: 1,
       formVisible: false,
+    };
+    this.propTypes = {
+      onNewTicketFormSubmission: PropTypes.func,
     };
   }
 
@@ -46,8 +50,14 @@ class QuestionScreen extends React.Component {
 
   setVisibility = () => {
     if (this.state.formVisible) {
+      console.log("What is in the props function?");
+      console.log(this.props.onNewTicketFormSubmission);
       return {
-        component: <NewTicketForm />,
+        component: (
+          <NewTicketForm
+            onNewTicketFormSubmission={this.props.onNewTicketFormSubmission}
+          />
+        ),
       };
     } else {
       let currentQuestion = this.displayQuestion();
