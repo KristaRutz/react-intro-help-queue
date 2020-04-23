@@ -14,7 +14,7 @@ function ReusableForm(props) {
   );
 }
 
-ReusableForm.PropTypes = {
+ReusableForm.propTypes = {
   handleFormSubmission: PropTypes.func,
   buttonText: PropTypes.string,
 };

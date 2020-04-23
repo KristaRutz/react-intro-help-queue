@@ -3,14 +3,16 @@ import NewTicketForm from "./NewTicketForm.js";
 import TicketList from "./TicketList.js";
 import QuestionScreen from "./QuestionScreen.js";
 import TicketDetail from "./TicketDetail.js";
+import EditTicketForm from "./EditTicketForm.js";
 
 class TicketControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: false,
+      newTicketFormVisible: false,
       masterTicketList: [],
       selectedTicket: null,
+      editingFormVisible: false,
     };
   }
 
@@ -18,7 +20,7 @@ class TicketControl extends React.Component {
     const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
     this.setState({
       masterTicketList: newMasterTicketList,
-      formVisibleOnPage: false,
+      newTicketFormVisible: false,
     });
     //this.setState({  });
   };
@@ -40,31 +42,59 @@ class TicketControl extends React.Component {
     });
   };
 
+  handleEditingTicketInList = (ticketToEdit) => {
+    const editedMasterTicketList = this.state.masterTicketList
+      .filter((ticket) => ticket.id !== this.state.selectedTicket.id)
+      .concat(ticketToEdit);
+    this.setState({
+      masterTicketList: editedMasterTicketList,
+      editingFormVisible: false,
+      selectedTicket: null,
+    });
+  };
+
+  handleEditClick = () => {
+    console.log("handleEditClick reached!");
+    this.setState({ editingFormVisible: true });
+  };
+
   handleClick = () => {
     if (this.state.selectedTicket != null) {
       this.setState({
-        formVisibleOnPage: false,
+        newTicketFormVisible: false,
+        editingFormVisible: false,
         selectedTicket: null,
       });
     } else {
       this.setState((prevState) => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage,
+        newTicketFormVisible: !prevState.newTicketFormVisible,
       }));
     }
   };
 
   setVisibility = () => {
-    if (this.state.selectedTicket != null) {
+    if (this.state.editingFormVisible) {
+      return {
+        buttonText: "Return To Ticket List",
+        component: (
+          <EditTicketForm
+            ticket={this.state.selectedTicket}
+            onEditTicketFormSubmission={this.handleEditingTicketInList}
+          />
+        ),
+      };
+    } else if (this.state.selectedTicket != null) {
       return {
         buttonText: "Return to Ticket List",
         component: (
           <TicketDetail
             ticket={this.state.selectedTicket}
             onClickingDelete={this.handleDeletingTicket}
+            onClickingEdit={this.handleEditClick}
           />
         ),
       };
-    } else if (this.state.formVisibleOnPage) {
+    } else if (this.state.newTicketFormVisible) {
       return {
         buttonText: "Return To Ticket List",
         component: (
