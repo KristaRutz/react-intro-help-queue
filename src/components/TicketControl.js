@@ -1,9 +1,9 @@
 import React from "react";
-import NewTicketForm from "./NewTicketForm.js";
 import TicketList from "./TicketList.js";
 import QuestionScreen from "./QuestionScreen.js";
 import TicketDetail from "./TicketDetail.js";
 import EditTicketForm from "./EditTicketForm.js";
+import { connect } from "react-redux";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -22,7 +22,6 @@ class TicketControl extends React.Component {
       masterTicketList: newMasterTicketList,
       newTicketFormVisible: false,
     });
-    //this.setState({  });
   };
 
   handleChangingSelectedTicket = (id) => {
@@ -128,5 +127,7 @@ class TicketControl extends React.Component {
     );
   }
 }
+
+TicketControl = connect()(TicketControl);
 
 export default TicketControl;
