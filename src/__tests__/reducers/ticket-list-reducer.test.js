@@ -2,6 +2,20 @@ import ticketListReducer from "../../reducers/ticket-list-reducer";
 
 describe("ticketListReducer", () => {
   let action;
+  const currentState = {
+    1: {
+      names: "Ryan and Aimen",
+      location: "3c",
+      issue: "Redux action is not working correctly.",
+      id: 1,
+    },
+    2: {
+      names: "Jasmine and Justine",
+      location: "2a",
+      issue: "Reducer has side effects.",
+      id: 1,
+    },
+  };
   const ticketData = {
     names: "Ryan and Aimen",
     location: "4b",
@@ -22,7 +36,6 @@ describe("ticketListReducer", () => {
       issue: issue,
       id: id,
     };
-
     expect(ticketListReducer({}, action)).toEqual({
       [id]: ticketData,
     });
@@ -37,13 +50,27 @@ describe("ticketListReducer", () => {
       issue: issue,
       id: id,
     };
-
     expect(ticketListReducer({ [id]: ticketData }, action)).toEqual({
       [id]: {
         names: "Edited names",
         location: location,
         issue: issue,
         id: id,
+      },
+    });
+  });
+
+  test("Should successfully delete a ticket", () => {
+    action = {
+      type: "DELETE_TICKET",
+      id: 1,
+    };
+    expect(ticketListReducer(currentState, action)).toEqual({
+      2: {
+        names: "Jasmine and Justine",
+        location: "2a",
+        issue: "Reducer has side effects.",
+        id: 1,
       },
     });
   });
