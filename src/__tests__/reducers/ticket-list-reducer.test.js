@@ -27,4 +27,24 @@ describe("ticketListReducer", () => {
       [id]: ticketData,
     });
   });
+
+  test("Should successfully edit ticket data in masterTicketList", () => {
+    const { names, location, issue, id } = ticketData;
+    action = {
+      type: "ADD_TICKET",
+      names: "Edited names",
+      location: location,
+      issue: issue,
+      id: id,
+    };
+
+    expect(ticketListReducer({ [id]: ticketData }, action)).toEqual({
+      [id]: {
+        names: "Edited names",
+        location: location,
+        issue: issue,
+        id: id,
+      },
+    });
+  });
 });
