@@ -10,16 +10,23 @@ class TicketControl extends React.Component {
     super(props);
     this.state = {
       newTicketFormVisible: false,
-      masterTicketList: [],
       selectedTicket: null,
       editingFormVisible: false,
     };
   }
 
   handleAddingNewTicketToList = (newTicket) => {
-    const newMasterTicketList = this.state.masterTicketList.concat(newTicket);
+    const { dispatch } = this.props;
+    const { id, names, location, issue } = newTicket;
+    const action = {
+      type: "ADD_TICKET",
+      id: id,
+      names: names,
+      location: location,
+      issue: issue,
+    };
+    dispatch(action);
     this.setState({
-      masterTicketList: newMasterTicketList,
       newTicketFormVisible: false,
     });
   };
