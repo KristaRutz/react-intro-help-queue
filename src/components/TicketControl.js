@@ -11,7 +11,7 @@ class TicketControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      newTicketFormVisible: false,
+      // newTicketFormVisible: false,
       selectedTicket: null,
       editingFormVisible: false,
     };
@@ -28,9 +28,16 @@ class TicketControl extends React.Component {
       issue: issue,
     };
     dispatch(action);
-    this.setState({
-      newTicketFormVisible: false,
-    });
+
+    // REACT state taken out
+    // this.setState({
+    //   newTicketFormVisible: false,
+    // });
+    // REDUX state added below
+    const action2 = {
+      type: "TOGGLE_FORM",
+    };
+    dispatch(action2);
   };
 
   handleChangingSelectedTicket = (id) => {
@@ -80,9 +87,16 @@ class TicketControl extends React.Component {
         selectedTicket: null,
       });
     } else {
-      this.setState((prevState) => ({
-        newTicketFormVisible: !prevState.newTicketFormVisible,
-      }));
+      // REACT state taken out
+      // this.setState((prevState) => ({
+      //   newTicketFormVisible: !prevState.newTicketFormVisible,
+      // }));
+      // REDUX state added below
+      const { dispatch } = this.props;
+      const action = {
+        type: "TOGGLE_FORM",
+      };
+      dispatch(action);
     }
   };
 
@@ -108,7 +122,8 @@ class TicketControl extends React.Component {
           />
         ),
       };
-    } else if (this.state.newTicketFormVisible) {
+    } else if (this.props.newTicketFormVisible) {
+      // changed 'this.state' to 'this.props' for Redux
       return {
         buttonText: "Return To Ticket List",
         component: (
@@ -149,7 +164,8 @@ TicketControl.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    masterTicketList: state,
+    masterTicketList: state.masterTicketList,
+    newTicketFormVisible: state.newTicketFormVisible,
   };
 };
 
