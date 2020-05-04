@@ -10,9 +10,6 @@ class QuestionScreen extends React.Component {
       questionVisible: 1,
       formVisible: false,
     };
-    this.propTypes = {
-      onNewTicketFormSubmission: PropTypes.func,
-    };
   }
 
   clickNextQuestion = () => {
@@ -77,5 +74,9 @@ class QuestionScreen extends React.Component {
     return <React.Fragment>{currentlyVisibleState.component}</React.Fragment>;
   }
 }
+
+QuestionScreen.propTypes = {
+  onNewTicketFormSubmission: PropTypes.func,
+};
 
 export default QuestionScreen;
