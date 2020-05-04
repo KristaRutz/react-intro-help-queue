@@ -8,6 +8,7 @@ import PropTypes from "prop-types";
 import Ticket from "./Ticket.js";
 import * as a from "../actions";
 import * as c from "../actions/ActionTypes";
+import { withFirestore } from "react-redux-firebase";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -46,8 +47,17 @@ class TicketControl extends React.Component {
   };
 
   handleChangingSelectedTicket = (id) => {
-    const selectedTicket = this.props.masterTicketList[id];
-    this.setState({ selectedTicket: selectedTicket });
+    this.props.firestore
+      .get({ collection: "tickets", doc: id })
+      .then((ticket) => {
+        const firestoreTicket = {
+          names: ticket.get("names"),
+          location: ticket.get("location"),
+          issue: ticket.get("issue"),
+          id: ticket.id,
+        };
+        this.setState({ selectedTicket: firestoreTicket });
+      });
   };
 
   handleDeletingTicket = (id) => {
@@ -85,11 +95,6 @@ class TicketControl extends React.Component {
         selectedTicket: null,
       });
     } else {
-      // REACT state taken out
-      // this.setState((prevState) => ({
-      //   newTicketFormVisible: !prevState.newTicketFormVisible,
-      // }));
-      // REDUX state added below
       const { dispatch } = this.props;
       const action = {
         type: "TOGGLE_FORM",
@@ -162,11 +167,10 @@ TicketControl.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    masterTicketList: state.masterTicketList,
     newTicketFormVisible: state.newTicketFormVisible,
   };
 };
 
 TicketControl = connect(mapStateToProps)(TicketControl);
 
-export default TicketControl;
+export default withFirestore(TicketControl);
