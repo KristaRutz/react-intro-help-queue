@@ -61,29 +61,20 @@ class TicketControl extends React.Component {
   };
 
   handleDeletingTicket = (id) => {
-    const { dispatch } = this.props;
-    const action = {
-      type: "DELETE_TICKET",
-      id: id,
-    };
-    dispatch(action);
+    this.props.firestore.delete({ collection: "tickets", doc: id });
     this.setState({
       selectedTicket: null,
     });
   };
 
-  handleEditingTicketInList = (ticketToEdit) => {
-    // const { dispatch } = this.props;
-    // const action = a.addTicket(ticketToEdit);
-    // dispatch(action);
-    // this.setState({
-    //   editingFormVisible: false,
-    //   selectedTicket: null,
-    // });
+  handleEditingTicketInList = () => {
+    this.setState({
+      editingFormVisible: false,
+      selectedTicket: null,
+    });
   };
 
   handleEditClick = () => {
-    console.log("handleEditClick reached!");
     this.setState({ editingFormVisible: true });
   };
 
