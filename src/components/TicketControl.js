@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Ticket from "./Ticket.js";
 import * as a from "../actions";
+import * as c from "../actions/ActionTypes";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -40,18 +41,8 @@ class TicketControl extends React.Component {
 
   handleAddingNewTicketToList = () => {
     const { dispatch } = this.props;
-    // const action = a.addTicket(newTicket);
-    // dispatch(action);
-
-    // REACT state taken out
-    // this.setState({
-    //   newTicketFormVisible: false,
-    // });
-    // REDUX state added below
-    const action2 = {
-      type: "TOGGLE_FORM",
-    };
-    dispatch(action2);
+    const action = a.toggleForm();
+    dispatch(action);
   };
 
   handleChangingSelectedTicket = (id) => {
@@ -72,13 +63,13 @@ class TicketControl extends React.Component {
   };
 
   handleEditingTicketInList = (ticketToEdit) => {
-    const { dispatch } = this.props;
-    const action = a.addTicket(ticketToEdit);
-    dispatch(action);
-    this.setState({
-      editingFormVisible: false,
-      selectedTicket: null,
-    });
+    // const { dispatch } = this.props;
+    // const action = a.addTicket(ticketToEdit);
+    // dispatch(action);
+    // this.setState({
+    //   editingFormVisible: false,
+    //   selectedTicket: null,
+    // });
   };
 
   handleEditClick = () => {
