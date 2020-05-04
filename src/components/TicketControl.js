@@ -6,6 +6,7 @@ import EditTicketForm from "./EditTicketForm.js";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Ticket from "./Ticket.js";
+import * as a from "../actions";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -20,33 +21,26 @@ class TicketControl extends React.Component {
   componentDidMount() {
     this.waitTimeUpdateTimer = setInterval(
       () => this.updateTicketElapsedWaitTime(),
-      1000
+      60000
     );
   }
 
-  componentDidUpdate() {
-    console.log("component updated!");
-  }
-
   componentWillUnmount() {
-    console.log("component unmounted!");
     clearInterval(this.waitTimeUpdateTimer);
   }
 
   updateTicketElapsedWaitTime = () => {
-    console.log("tick");
+    const { dispatch } = this.props;
+    Object.values(this.props.masterTicketList).forEach((ticket) => {
+      const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
+      const action = a.updateTime(ticket.id, newFormattedWaitTime);
+      dispatch(action);
+    });
   };
 
   handleAddingNewTicketToList = (newTicket) => {
     const { dispatch } = this.props;
-    const { id, names, location, issue } = newTicket;
-    const action = {
-      type: "ADD_TICKET",
-      id: id,
-      names: names,
-      location: location,
-      issue: issue,
-    };
+    const action = a.addTicket(newTicket);
     dispatch(action);
 
     // REACT state taken out
@@ -79,14 +73,7 @@ class TicketControl extends React.Component {
 
   handleEditingTicketInList = (ticketToEdit) => {
     const { dispatch } = this.props;
-    const { id, names, location, issue } = ticketToEdit;
-    const action = {
-      type: "ADD_TICKET",
-      id: id,
-      names: names,
-      location: location,
-      issue: issue,
-    };
+    const action = a.addTicket(ticketToEdit);
     dispatch(action);
     this.setState({
       editingFormVisible: false,
